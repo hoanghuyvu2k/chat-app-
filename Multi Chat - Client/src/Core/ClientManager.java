@@ -149,7 +149,18 @@ public class ClientManager extends Observable{
             notifyObservers(result);
         }
     }
-    
+    public void GetListUser()
+    {
+        String line = ActionType.GET_LIST_USER + ";";
+        try
+        {
+            mBufferWriter.write(line + "\n");
+            mBufferWriter.flush();
+        } catch (IOException ex) {
+            Result result = new Result("", ResultCode.ERROR, "Kết nối tới server có lỗi");
+            notifyObservers(result);
+        }
+    }
     public void CreateRoom(String roomName)
     {
         String line = ActionType.CREATE_ROOM + ";" + roomName;

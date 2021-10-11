@@ -21,4 +21,5 @@ public class ActionType {
     public static final String NOTIFY_JUST_JOIN_ROOM = "8";
     public static final String NOTIFY_JUST_LEAVE_ROOM = "9";
     public static final String LOGOUT = "10";
+     public static final String GET_LIST_USER = "11"; 
 }

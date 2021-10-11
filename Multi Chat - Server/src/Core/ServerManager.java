@@ -314,6 +314,50 @@ public class ServerManager extends Observable
                 break;
 
             }
+             case ActionType.GET_LIST_USER:
+             {
+                int size = mListUser.size();//query có dạng actionType;
+                int rowsPerBlock = 500;    //số phòng gửi về mỗi block
+                if(size>0)
+                {
+                    /*Nếu có quá nhiều phòng(2000 chẳng hạn) thì 1 chuỗi string(1 lần gửi) sẽ không
+                    thể chứa hết được thông tin của tất cả phòng
+                    nên ta chia ra từng block gửi nhiều lần.
+                    Trong thực tế thì có thể sử dụng chức năng phân trang, nhưng trong project này
+                    không phân trang nên lựa chọn cách thức này
+                    */
+                    String listUser = "";
+                    int start=0;
+                    int end=0;
+                    int numberBlock = (int)Math.floor(size/(double)rowsPerBlock);
+                    for (int i = 0; i < numberBlock; i++) 
+                    {
+                        start = i*rowsPerBlock;
+                        end = start + rowsPerBlock;
+                        listUser = "";
+                        for (int j = start; j < end; j++) 
+                        {
+                            User userr = mListUser.get(j);
+                            listUser+= userr.mNickName + "<col>" + userr.mLogined + "<col>"  + "<row>";
+                        }
+                        System.out.print("Gửi lần thứ: " + i);
+                        user.Send(actionType, ResultCode.OK, listUser);
+                    }
+                    
+                    listUser = "";
+                    for (int i = end; i < size; i++) //gửi nốt những phòng còn lại
+                    {
+                        User userr = mListUser.get(i);
+                        listUser+= userr.mNickName + "<col>" + userr.mLogined + "<col>"  + "<row>";
+                    }
+                    user.Send(actionType, ResultCode.OK, listUser);
+                }else
+                {
+                    user.Send(actionType, ResultCode.OK, "");
+                }
+                notifyObservers(user.mNickName + " vừa lấy danh sách người dùng");
+                break;
+             }
         }
     }
     

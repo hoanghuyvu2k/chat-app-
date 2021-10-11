@@ -45,6 +45,21 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
             }
         }
     }
+       public void FillListUser(Result result)
+    {
+        DefaultTableModel dtm = (DefaultTableModel)tblListUser.getModel();
+        if(result.mContent.length()>0)
+        {
+           
+            String[] rows = result.mContent.split("<row>");
+            for (int i = 0; i < rows.length; i++) //hàng đầu là trống
+            {
+                String[] cols = rows[i].split("<col>");
+
+                dtm.addRow(cols);
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,7 +81,7 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblListPhong1 = new javax.swing.JTable();
+        tblListUser = new javax.swing.JTable();
         btnRefresh1 = new javax.swing.JButton();
         txtTenPhong1 = new javax.swing.JTextField();
         btnTaoPhong1 = new javax.swing.JButton();
@@ -179,12 +194,12 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
 
         jTabbedPane1.addTab("Chat theo phòng", jPanel1);
 
-        tblListPhong1.setModel(new javax.swing.table.DefaultTableModel(
+        tblListUser.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã người dùng", "Nicname"
+                "Nicname", "Time đăng nhập"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -195,7 +210,7 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tblListPhong1);
+        jScrollPane2.setViewportView(tblListUser);
 
         btnRefresh1.setText("Tải danh sách người dùng");
         btnRefresh1.addActionListener(new java.awt.event.ActionListener() {
@@ -338,6 +353,10 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
 
     private void btnRefresh1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefresh1ActionPerformed
         // TODO add your handling code here:
+          btnRefresh1.setEnabled(false);
+        DefaultTableModel dtm = (DefaultTableModel)tblListUser.getModel();
+        dtm.setRowCount(0);
+        mClientManager.GetListUser();
     }//GEN-LAST:event_btnRefresh1ActionPerformed
 
     private void txtTenPhong1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenPhong1KeyTyped
@@ -395,6 +414,11 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
                 this.setVisible(false);
                 break;
             }
+             case ActionType.GET_LIST_USER:
+            {
+                FillListUser(result);
+                break;
+            }
         }
     }
 
@@ -414,7 +438,7 @@ public class MainFrame extends javax.swing.JFrame  implements Observer{
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable tblListPhong;
-    private javax.swing.JTable tblListPhong1;
+    private javax.swing.JTable tblListUser;
     private javax.swing.JTextField txtTenPhong;
     private javax.swing.JTextField txtTenPhong1;
     // End of variables declaration//GEN-END:variables
