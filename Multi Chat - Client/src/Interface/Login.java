@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
- * @author MinhLuong
  */
 public class Login extends javax.swing.JFrame implements Observer{
 

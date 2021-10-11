@@ -13,7 +13,6 @@ import Core.ResultCode;
 import javax.swing.JOptionPane;
 /**
  *
- * @author MinhLuong
  */
 public class RoomChat extends javax.swing.JFrame implements Observer {
 

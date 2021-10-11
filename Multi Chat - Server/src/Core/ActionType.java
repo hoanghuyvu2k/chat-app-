@@ -7,7 +7,6 @@ package Core;
 
 /**
  *
- * @author MinhLuong
  */
 public class ActionType {
 
@@ -23,4 +22,5 @@ public class ActionType {
     public static final String NOTIFY_JUST_LEAVE_ROOM = "9";
     public static final String LOGOUT = "10";
     public static final String GET_LIST_USER = "11";
+    public static final String CHAT_USER = "12";
 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 /**
  *
- * @author MinhLuong
  */
 public class Room {
     public String mMaPhong;

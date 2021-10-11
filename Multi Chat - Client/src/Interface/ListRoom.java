@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
  *
- * @author MinhLuong
  */
 public class ListRoom extends javax.swing.JFrame implements Observer{
 

@@ -7,7 +7,6 @@ package Core;
 
 /**
  *
- * @author MinhLuong
  */
 public class ResultCode {
     public static final String OK = "1";

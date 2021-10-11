@@ -16,7 +16,6 @@ import java.util.Observer;
 import java.util.Random;
 /**
  *
- * @author MinhLuong
  */
 public class ServerManager extends Observable
 {
@@ -231,8 +230,11 @@ public class ServerManager extends Observable
                     listRoom = "";
                     for (int i = end; i < size; i++) //gửi nốt những phòng còn lại
                     {
-                        Room room = mListRoom.get(i);
-                        listRoom+= room.mMaPhong + "<col>" + room.mTenPhong + "<col>" + room.CountUser() + "<col>" + "<row>";
+                        if(!mListRoom.get(i).mTenPhong.split("-")[1].equalsIgnoreCase("user")){
+                            Room room = mListRoom.get(i);
+                            listRoom+= room.mMaPhong + "<col>" + room.mTenPhong + "<col>" + room.CountUser() + "<col>" + "<row>";
+                        }
+                        
                     }
                     user.Send(actionType, ResultCode.OK, listRoom);
                 }else
@@ -356,6 +358,24 @@ public class ServerManager extends Observable
                     user.Send(actionType, ResultCode.OK, "");
                 }
                 notifyObservers(user.mNickName + " vừa lấy danh sách người dùng");
+                break;
+             }
+             case ActionType.CHAT_USER:{
+                String roomName = lines[1];  //query có dạng actionType;roomName
+                Room room = GeneralRoom(roomName);
+                mListRoom.add(room);
+                user.mRoom = room;
+                if(user.Send(actionType, ResultCode.OK, room.mMaPhong+";"+lines[2]))
+                    room.AddUser(user);
+                for(int i=0;i<mListUser.size();i++){
+                    if(mListUser.get(i).mNickName.equalsIgnoreCase(lines[2])){
+                        User userTo = mListUser.get(i);
+                        room.AddUser(userTo);
+                        mListUser.get(i).mRoom = room;
+                        userTo.Send(actionType, ResultCode.OK, room.mMaPhong+";"+lines[2]);
+                    }
+                }
+                notifyObservers(user.mNickName + " vừa tạo phòng " + roomName);
                 break;
              }
         }

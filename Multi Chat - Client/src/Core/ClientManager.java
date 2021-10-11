@@ -16,7 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
- * @author MinhLuong
  */
 public class ClientManager extends Observable{
     
@@ -164,6 +163,19 @@ public class ClientManager extends Observable{
     public void CreateRoom(String roomName)
     {
         String line = ActionType.CREATE_ROOM + ";" + roomName;
+        try
+        {
+            mBufferWriter.write(line + "\n");
+            mBufferWriter.flush();
+        } catch (IOException ex) {
+            Result result = new Result("", ResultCode.ERROR, "Kết nối tới server có lỗi");
+            notifyObservers(result);
+        }
+    }
+    
+    public void CreateAndJoinRoom(String roomName,String userName)
+    {
+        String line = ActionType.CHAT_USER + ";" + roomName + ";" + userName;
         try
         {
             mBufferWriter.write(line + "\n");

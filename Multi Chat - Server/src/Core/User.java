@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author MinhLuong
  */
 public class User {
     Socket mSocket;

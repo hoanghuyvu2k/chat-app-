@@ -7,7 +7,6 @@ package Core;
 
 /**
  *
- * @author MinhLuong
  */
 public class Result 
 {
